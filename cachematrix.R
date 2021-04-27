@@ -5,7 +5,7 @@
 
 # The makeCacheMatrix function creates a special "matrix", 
 # which is really a list containing a function to
-# 1) set the value of the matrix()
+# 1) set the value of the matrix
 # 2) get the value of the matrix
 # 3) set the value of the inverse
 # 4) get the value of the inverse
@@ -53,16 +53,18 @@ makeCacheMatrix <- function(x = matrix()) {
 cachesolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'm'
     
-    #checked to see if inverse already cached
+    # get inverse maztrix if cached
     inv.m <- x$getinverse()
     
-    
+    #checked to see if inverse cached
     if(!is.null(inv.m)) {
         message("getting cached data")
         return(inv.m)
     }
     
-    # added test for invertible 
+    #if no inverse cached calculate inverse
+    
+    # added test to check if matrix invertible 
     # not required as assumed  matrix invertible but assists testing 
     invertible <- function(m) "matrix" %in% class(try(solve(m),silent=TRUE))
     
@@ -74,6 +76,7 @@ cachesolve <- function(x, ...) {
         message("Matrix is not invertible")
         return()
     }
+    #calculate inverse and cache values
     m.inv <- solve(m, ...)
     x$setinverse(m.inv)
     m.inv
